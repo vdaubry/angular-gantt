@@ -68,7 +68,7 @@ angular.module('angularGanttDemoApp')
                             {'id': '2f4ec0f1-cd7a-441a-8288-e788ec112af9', 'name': 'Supervise content creation', 'color': '#F1C232', 'from': new Date(2013, 10, 26, 9, 0, 0), 'to': new Date(2013, 10, 29, 16, 0, 0)}
                         ]},
                         {'id': 'ec0c5e31-449f-42d0-9e81-45c66322b640', 'name': 'Documentation', 'order': 14, 'tasks': [
-                            {'id': 'edf2cece-2d17-436f-bead-691edbc7386b', 'name': 'Technical/User documentation', 'color': '#F1C232', 'from': new Date(2013, 10, 26, 8, 0, 0), 'to': new Date(2013, 10, 28, 18, 0, 0)}
+                            {'id': 'edf2cece-2d17-436f-bead-691edbc7386b', 'name': 'Technical/User documentation', 'color': '#F1C232', 'from': new Date(2013, 10, 26, 8, 0, 0), 'to': new Date(2014, 10, 28, 18, 0, 0)}
                         ]}
                     ]};
             },

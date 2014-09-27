@@ -35,6 +35,12 @@ gantt.service('dateFunctions', [ function() {
                 0,
                 milliseconds);
         },
+        setToFirstMonthOfYear: function(date, clone) {
+            var res = clone === true ? this.clone(date) : date;
+            res.setDate(1);
+            res.setMonth(1);
+            return res;
+        },
         setToFirstDayOfMonth: function(date, clone) {
             var res = clone === true ? this.clone(date) : date;
             res.setDate(1);
@@ -49,6 +55,13 @@ gantt.service('dateFunctions', [ function() {
                 var diff = (dayOfWeek - res.getDay() + 7 * (orient || +1)) % 7;
                 return this.addDays(res, (diff === 0) ? diff += 7 * (orient || +1) : diff);
             }
+        },
+        addYears: function(date, val, clone) {
+            var res = clone === true ? this.clone(date) : date;
+            res.setDate(1);
+            res.setMonth(1);
+            res.setYear(res.getFullYear() + val);
+            return res;
         },
         addMonths: function(date, val, clone) {
             var res = clone === true ? this.clone(date) : date;

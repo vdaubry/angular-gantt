@@ -425,10 +425,81 @@ gantt.factory('ColumnGenerator', [ 'Column', 'dateFunctions', function(Column, d
         };
     };
 
+    var YearColumnGenerator = function(width, columnWidth, columnSubScale) {
+        // Generates one column for each year between the given from and to date.
+        this.generate = function(from, to, maximumWidth, leftOffset, reverse) {
+            if (!to && !maximumWidth) {
+                throw 'to or maximumWidth must be defined';
+            }
+
+            //var fromYear = from.getFullYear();
+            //var toYear = to.getFullYear();
+            var date = df.clone(from);
+            var excludeTo = false;
+
+            var generatedCols = [];
+            var left = 0;
+
+            while (true) {
+                if (maximumWidth && Math.abs(left) > maximumWidth + columnWidth) {
+                    break;
+                }
+
+                generatedCols.push(new Column.Month(df.clone(date), leftOffset ? left + leftOffset : left, columnWidth, columnSubScale));
+                if (reverse) {
+                    left -= columnWidth;
+                } else {
+                    left += columnWidth;
+                }
+
+                if (to) {
+                    if (reverse) {
+                        if (excludeTo && date < to || !excludeTo && date <= to) {
+                            break;
+                        }
+                    } else {
+                        if (excludeTo && date > to || !excludeTo && date >= to) {
+                            break;
+                        }
+                    }
+                }
+
+                date = df.addYears(date, reverse ? -1 : 1);
+            }
+
+            if (reverse) {
+                generatedCols.reverse();
+            }
+
+            setWidth(width, left, generatedCols);
+
+            return generatedCols;
+        };
+
+        this.columnExpandNecessary = function(firstColDate, lastColDate, newFromDate, newToDate) {
+            // If the To date was excluded from generating then go back one month.
+            // if (isToDateToExclude(newToDate)) {
+            //     newToDate = df.addMonths(newToDate, -1, true);
+            // }
+
+            // Set time of newToDate to zero before comparing as the month columns generated have day = 1 and time = 00:00
+            // and the newToDate could be e.g. day 7 and time 16:23.
+            // If we wouldn`t set the day to 1 and time to zero the comparison would trigger an expand in that case.
+            return firstColDate > newFromDate || lastColDate < df.setToFirstMonthOfYear(df.setToFirstDayOfMonth(df.setTimeZero(newToDate, true)));
+        };
+
+        // Columns are generated including or excluding the to date.
+        // If the To date is the first day of month and the time is 00:00 then no new column is generated for this month.
+        // var isToDateToExclude = function(to) {
+        //     return to.getDate() === 1 && df.isTimeZero(to);
+        // };
+    };
+
     return {
         HourGenerator: HourColumnGenerator,
         DayGenerator: DayColumnGenerator,
         WeekGenerator: WeekColumnGenerator,
-        MonthGenerator: MonthColumnGenerator
+        MonthGenerator: MonthColumnGenerator,
+        YearGenerator: YearColumnGenerator
     };
 }]);

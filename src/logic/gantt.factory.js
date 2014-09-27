@@ -56,6 +56,9 @@ gantt.factory('Gantt', ['$filter', 'Row', 'Timespan', 'ColumnGenerator', 'Header
                 case 'month':
                     self.columnGenerator = new ColumnGenerator.MonthGenerator($scope.width, $scope.columnWidth, $scope.columnSubScale);
                     break;
+                case 'year':
+                    self.columnGenerator = new ColumnGenerator.YearGenerator($scope.width, $scope.columnWidth, $scope.columnSubScale);
+                    break;
                 default:
                     throw 'Unsupported view scale: ' + $scope.viewScale;
             }

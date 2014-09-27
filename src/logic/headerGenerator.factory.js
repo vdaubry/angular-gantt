@@ -69,6 +69,23 @@ gantt.factory('HeaderGenerator', [ 'Column', 'dateFunctions', function(Column, d
         return generatedHeaders;
     };
 
+    var generateYearHeader = function(columns) {
+        var generatedHeaders = [];
+
+        var header;
+        for (var i = 0, l = columns.length; i < l; i++) {
+            var col = columns[i];
+            if (i === 0 || columns[i - 1].date.getFullYear() !== col.date.getFullYear()) {
+                header = new Column.Year(df.clone(col.date), col.left, col.width);
+                generatedHeaders.push(header);
+            } else {
+                header.width += col.width;
+            }
+        }
+
+        return generatedHeaders;
+    };
+
     return {
         instance: function($scope) {
             this.generate = function(columns) {
@@ -84,6 +101,9 @@ gantt.factory('HeaderGenerator', [ 'Column', 'dateFunctions', function(Column, d
                 }
                 if ($scope.headerShowMonth && ['week', 'month'].indexOf($scope.viewScale) > -1) {
                     headers.month = generateMonthHeader(columns);
+                }
+                if ($scope.headerShowYear && ['year'].indexOf($scope.viewScale) > -1) {
+                    headers.year = generateYearHeader(columns);
                 }
                 return headers;
             };

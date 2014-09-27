@@ -42,10 +42,12 @@ gantt.directive('gantt', ['Gantt', 'dateFunctions', 'mouseOffset', 'debounce', '
             maxHeight: '=?', // Define the maximum height of the Gantt in PX. > 0 to activate max height behaviour.
             labelsWidth: '=?', // Define the width of the labels section. Changes when the user is resizing the labels width
             showTooltips: '=?', // True when tooltips shall be enabled. Default (true)
+            headerShowYear: '=?',
             headerShowMonth: '=?',
             headerShowWeek: '=?',
             headerShowDay: '=?',
             headerShowHour: '=?',
+            headerFormatYear: '=?',
             headerFormatMonth: '=?',
             headerFormatWeek: '=?',
             headerFormatDay: '=?',
@@ -154,6 +156,9 @@ gantt.directive('gantt', ['Gantt', 'dateFunctions', 'mouseOffset', 'debounce', '
             }
             if ($scope.showTooltips === undefined) {
                 $scope.showTooltips = true;
+            }
+            if ($scope.headerShowYear === undefined) {
+                $scope.headerShowYear = true;
             }
             if ($scope.headerShowMonth === undefined) {
                 $scope.headerShowMonth = true;
